@@ -1,8 +1,6 @@
 ui <- semanticPage(
   title = "My page",
-  h1("Binomial Bayesian Inference"),
-  h2("Bayesian updating for trials with 2 outcomes"),
-  # TODO add check that all characters should be 0 or 1
+  h1("Bayesian updating for binomial trials"),
   textInput(
     "outcome",
     "Vector of outcomes (only 0 and 1 allowed):",
@@ -74,9 +72,11 @@ ui <- semanticPage(
 server <- function(input, output) {
   outcome <- reactive({
     req(input$outcome)
+    validate(
+      need(are_outcomes_valid(input$outcome), "Possible outcomes are only 0 and 1!")
+    )
     string2vec(input$outcome)
   })
-
 
   prior <- reactive({
     req(input$prior)
@@ -94,7 +94,7 @@ server <- function(input, output) {
       dnorm(grid, x = input$normal_mean, sd = input$normal_sd)
     }
 
-    return(prior)
+    prior
   })
 
   output$plot <- renderPlot({
