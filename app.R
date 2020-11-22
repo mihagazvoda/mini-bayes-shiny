@@ -1,12 +1,11 @@
-# alpha of lines?
-# slider for confidence intervals
-# only possible characters for text input
-
 ui <- semanticPage(
   title = "My page",
+  h1("Binomial Bayesian Inference"),
+  h2("Bayesian updating for trials with 2 outcomes"),
+  # TODO add check that all characters should be 0 or 1
   textInput(
-    "k",
-    "Enter a vector of zeros and ones",
+    "outcome",
+    "Vector of outcomes (only 0 and 1 allowed):",
     placeholder = "For example: 0101"
   ),
   selectInput(
@@ -36,7 +35,7 @@ ui <- semanticPage(
     # ),
     numericInput(
       "step_border",
-      "Border value(between 0 and 1):",
+      "Border value (between 0 and 1):",
       value = 0.5,
       min = 0,
       max = 1,
@@ -73,10 +72,11 @@ ui <- semanticPage(
 )
 
 server <- function(input, output) {
-  k <- reactive({
-    req(input$k)
-    string2vec(input$k)
+  outcome <- reactive({
+    req(input$outcome)
+    string2vec(input$outcome)
   })
+
 
   prior <- reactive({
     req(input$prior)
@@ -93,16 +93,13 @@ server <- function(input, output) {
       grid <- seq(0, 1, length.out = n_grid)
       dnorm(grid, x = input$normal_mean, sd = input$normal_sd)
     }
-    
+
     return(prior)
   })
 
   output$plot <- renderPlot({
-    # move this to a separate function
-    populate_posteriors(k(), prior()) %>%
-      ggplot(aes(p_grid, posterior, color = id, group = id)) +
-      geom_line() +
-      labs(title = "Posteriors after each data point")
+    populate_posteriors(outcome(), prior()) %>%
+      plot_posteriors()
   })
 }
 

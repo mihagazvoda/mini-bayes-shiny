@@ -1,14 +1,3 @@
-
-
-# p_grid <- seq(0, 1, length.out = n)
-# prior <- seq(10, 0, length.out = n)
-# 
-# likelihood <- dbinom(1, size = 1, prob = p_grid)
-# 
-# posterior_unstandardized <- likelihood * prior
-# 
-# posterior <- posterior_unstandardized / sum(posterior_unstandardized)
-
 get_posterior <- function(k, prior) {
   p_grid <- seq(0, 1, length.out = length(prior))
   
@@ -20,29 +9,12 @@ get_posterior <- function(k, prior) {
 }
 
 
-# get_posterior(3, 3, c(1,2,3))
-# 
-# prior = c(1,1,1)
-# 
-# get_posterior(1, prior = c(1, 1, 1))
-# 
-# k = c(1, 0)
-# 
-# foo <- function(k, prior) {
-#   if(length(k) == 0) return(prior)
-#   
-#   posterior <- get_posterior(k[1], prior = prior)
-#   
-#   return(foo(tail(k, -1), prior = posterior))
-# }
-
-
 populate_posteriors <- function(k, prior) {
   df <- tibble::tibble(
     id = seq_along(k),
     k = k,
     p_grid = list(seq(0, 1, length.out = length(prior))),
-    prior = c(list(prior), vector("list", length(k) - 1)),
+    prior = c(list(prior / sum(prior)), vector("list", length(k) - 1)),
     posterior = vector("list", length(k))
   )
   
@@ -58,12 +30,24 @@ string2vec <- function(k) {
   as.numeric(unlist(strsplit(k,"")))
 }
 
-# df <- populate_posteriors(c(1,0, 1, 1), rep(1, 100))
-# 
-# library(ggplot2)
-# 
-# ggplot(df, aes(p_grid, posterior, color = id, group = id)) + 
-#     geom_line()
-
-
-
+plot_posteriors <- function(data) {
+  data %>% 
+  ggplot(aes(p_grid, posterior)) +
+    geom_line(aes(color = id, group = id), size = 2) +
+    geom_line(data = . %>% filter(id == 1), aes(p_grid, prior), size = 2, color = "gray", linetype = "dashed") +
+    viridis::scale_color_viridis() +
+    theme_classic(
+      base_size = 15
+    ) +
+    theme(
+      axis.text.y = element_blank(),
+      axis.ticks.y = element_blank()
+    ) + 
+    labs(
+      title = "Model's estimate for probability of success",
+      x = "Probability of success",
+      y = "Plausability",
+      caption = "Gray line represents a prior.",
+      color = "Trial"
+    )
+}
