@@ -1,6 +1,9 @@
 ui <- semanticPage(
-  title = "My page",
-  h1("Bayesian updating for binomial trials"),
+  title = "Bayesian updating",
+  header(
+    "Bayesian updating for binomial trials", 
+    HTML("<p style='font-size:10px'>Author: <a href='https://www.mihagazvoda.com'>Miha Gazvoda</a></p>")
+    ),
   textInput(
     "outcome",
     "Vector of outcomes (only 0 and 1 allowed):",

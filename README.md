@@ -12,4 +12,10 @@ Clone the project. Run `make app` in your terminal (inside project folder). Bam!
 
 This project was inspired by an earth tossing example (chapter 2) from [Statistical Rethinking](https://xcelab.net/rm/statistical-rethinking/) by Richard McElreath. I find the book to be a great resource to dive into Bayesian statistics. 
 
+## Possible improvements
+
+* Add plot with 95% highest posterior density (HPDI) and percentile (PI) intervals over trials.
+* Add prediction plot based on all data.
+* Refactor code into Shiny modules.
+
 
