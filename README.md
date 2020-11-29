@@ -14,6 +14,8 @@ This project was inspired by an earth tossing example (chapter 2) from [Statisti
 
 ## Possible improvements
 
+* Legend for a prior.
+* Plot should display only priors even if there's no uesr input.
 * Add plot with 95% highest posterior density (HPDI) and percentile (PI) intervals over trials.
 * Add prediction plot based on all data.
 * Refactor code into Shiny modules.
