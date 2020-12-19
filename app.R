@@ -7,6 +7,7 @@ ui <- semanticPage(
   textInput(
     "outcome",
     "Vector of outcomes (only 0 and 1 allowed):",
+    value = "011",
     placeholder = "For example: 0101"
   ),
   selectInput(
@@ -27,13 +28,6 @@ ui <- semanticPage(
       min = 0,
       step = 1
     ),
-    # slider_input(
-    #   "step_border",
-    #   value = 0.5,
-    #   min = 0,
-    #   max = 1,
-    #   step = 0.01
-    # ),
     numericInput(
       "step_border",
       "Border value (between 0 and 1):",
