@@ -47,9 +47,9 @@ plot_posteriors <- function(data) {
     ) +
     labs(
       title = "Posterior probability",
-      subtitle = "Plausability of any specific probability of success",
+      subtitle = "Plausibility of any specific probability of success",
       x = "Probability of success",
-      y = "Plausability",
+      y = "Probability density",
       caption = "Gray line represents a prior.",
       color = "Trial"
     )
@@ -60,15 +60,15 @@ are_outcomes_valid <- function(outcomes) {
   stringr::str_remove_all(stringr::str_remove_all(outcomes, "1"), "0") == ""
 }
 
-# added because shiny semantic package has a bug
-textInput <- function(inputId, label, value = "", width = NULL,
-                      placeholder = NULL, type = "text") {
-  shiny::div(
-    class = "ui form",
-    style = if (!is.null(width)) glue::glue("width: {shiny::validateCssUnit(width)};"),
-    shiny::div(class = "field",
-               if (!is.null(label)) tags$label(label, `for` = inputId),
-               text_input(inputId, value = value, placeholder = placeholder, type = type)
-    )
-  )
-}
+# # added because shiny semantic package has a bug
+# textInput <- function(inputId, label, value = "", width = NULL,
+#                       placeholder = NULL, type = "text") {
+#   shiny::div(
+#     class = "ui form",
+#     style = if (!is.null(width)) glue::glue("width: {shiny::validateCssUnit(width)};"),
+#     shiny::div(class = "field",
+#                if (!is.null(label)) tags$label(label, `for` = inputId),
+#                text_input(inputId, value = value, placeholder = placeholder, type = type)
+#     )
+#   )
+# }
